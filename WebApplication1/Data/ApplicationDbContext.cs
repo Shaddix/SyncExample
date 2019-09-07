@@ -87,7 +87,9 @@ namespace WebApplication1.Data
 
                 var originalEntity = entityInfo.OriginalValues.ToObject();
 
-                var foreignKeys = entityInfo.Navigations.Select(x => new
+                var foreignKeys = entityInfo.Navigations
+                    .Where(x => !x.Metadata.IsCollection())
+                    .Select(x => new
                 {
                     Name = x.Metadata.Name,
                     ForeignKey = x.Metadata.ForeignKey.Properties[0]
